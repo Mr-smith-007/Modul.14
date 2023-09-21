@@ -21,7 +21,7 @@ namespace LinqTest
             var applications = from student in students
                                let yearOfBirth = DateTime.Now.Year - student.Age
                                where student.Age < 27
-                               select new Application
+                               select new Application()
                                {
                                    Name = student.Name,
                                    YearOfBirth = yearOfBirth,
