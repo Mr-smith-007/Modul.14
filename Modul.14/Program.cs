@@ -10,15 +10,19 @@ namespace LinqTest
         static void Main(string[] args)
         {
 
-            string[] text = { "Раз два три", "четыре пять шесть", "семь восемь девять" };
-            var words = from str in text 
-                        from word in str.Split(' ') 
-                        select word; 
+            var numsList = new List<int[]>()
+            {
 
-            
-            foreach (var word in words)
-                Console.WriteLine(word);
+                new[] {2, 3, 7, 1},
+                new[] {45, 17, 88, 0},
+                new[] {23, 32, 44, -6},
 
+            };
+
+            var orderByList = numsList.SelectMany(s=>s).OrderBy(s => s);
+
+            foreach (var num in orderByList) 
+            Console.WriteLine(num);
 
         }
 
