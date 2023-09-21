@@ -17,6 +17,11 @@ namespace LinqTest
             russianCities.Add(new City("Казань", 1169000));
             russianCities.Add(new City("Севастополь", 449138));
 
+            var nameCities = russianCities.Where(c => c.Name.Length <= 10).OrderBy(c => c.Name.Length);
+            foreach (var c in nameCities)
+            {
+                Console.WriteLine($"Город {c.Name} имеет в названии {c.Name.Length} букв");
+            }
         }
 
 
