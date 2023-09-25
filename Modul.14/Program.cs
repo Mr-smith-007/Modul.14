@@ -9,41 +9,60 @@ namespace LinqTest
 
         static void Main(string[] args)
         {
-
-            List<Student> students = new List<Student>
+            var contacts = new List<Contact>()
             {
-             new Student {Name="Андрей", Age=23, Languages = new List<string> {"английский", "немецкий" }},
-             new Student {Name="Сергей", Age=27, Languages = new List<string> {"английский", "французский" }},
-              new Student {Name="Дмитрий", Age=29, Languages = new List<string> {"английский", "испанский" }},
-              new Student {Name="Василий", Age=24, Languages = new List<string> {"испанский", "немецкий" }}
+                new Contact() { Name = "Андрей", Phone = 7999945005},
+                new Contact() { Name = "Сергей", Phone = 799990455 },
+                new Contact() { Name = "Иван", Phone = 79999675 },
+                new Contact() { Name = "Игорь", Phone = 795862356 },
+                new Contact() { Name = "Анна", Phone = 79235645005 },
+                new Contact() { Name = "Василий", Phone = 79035689535 }
             };
 
-            var applications = from student in students
-                               let yearOfBirth = DateTime.Now.Year - student.Age
-                               where student.Age < 27
-                               select new Application()
-                               {
-                                   Name = student.Name,
-                                   YearOfBirth = yearOfBirth,
-                               };
-
-            foreach (var app in applications)
+            while (true)
             {
-                Console.WriteLine(app.Name + " " + app.YearOfBirth);
+                var keychar = Console.ReadKey().KeyChar;
+                Console.Clear();
+
+
+                if (!Char.IsDigit(keychar))
+                    Console.WriteLine("Ошибка ввода, введите число");
+                else
+                {
+                    IEnumerable<Contact> page = null;
+
+                    switch (keychar)
+                    {
+                        case ('1'):
+                            page = contacts.Take(2);
+                            break;
+                        case ('2'):
+                            page = contacts.Skip(2).Take(2);
+                            break;
+                        case ('3'):
+                            page = contacts.Skip(4).Take(2);
+                            break;
+                    }
+
+                    if (page == null)
+                    {
+                        Console.WriteLine($"Ошибка ввода, страницы с номером {keychar} не существует");
+                        continue;
+                    }
+
+                    foreach (var contact in page)
+                        Console.WriteLine(contact.Name + " " + contact.Phone);
+                }
             }
         }
 
     }
-    class Student
+    class Contact
     {
         public string Name { get; set; }
-        public int Age { get; set; }
-        public List<string> Languages { get; set; }
+        public long Phone { get; set; }
+
     }
 
-    public class Application
-    {
-        public string Name { get; set; }
-        public int YearOfBirth { get; set; }
-    }
+
 }
