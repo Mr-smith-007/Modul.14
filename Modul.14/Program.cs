@@ -9,36 +9,68 @@ namespace LinqTest
 
         static void Main(string[] args)
         {
-            var cars = new List<Car>()
-             {
-              new Car("Suzuki", "JP"),
-              new Car("Toyota", "JP"),
-              new Car("Opel", "DE"),
-              new Car("Kamaz", "RUS"),
-              new Car("Lada", "RUS"),
-              new Car("Lada", "RUS"),
-              new Car("Honda", "JP"),
-             };
+            var phoneBook = new List<Contact>();
 
-            cars.RemoveAll(cars => cars.CountryCode == "JP");
+            
+            phoneBook.Add(new Contact("Игорь", "Николаев", 79990000001, "igor@example.com"));
+            phoneBook.Add(new Contact("Сергей", "Довлатов", 79990000010, "serge@example.com"));
+            phoneBook.Add(new Contact("Анатолий", "Карпов", 79990000011, "anatoly@example.com"));
+            phoneBook.Add(new Contact("Валерий", "Леонтьев", 79990000012, "valera@example.com"));
+            phoneBook.Add(new Contact("Сергей", "Брин", 799900000013, "serg@example.com"));
+            phoneBook.Add(new Contact("Иннокентий", "Смоктуновский", 799900000013, "innokentii@example.com"));
 
-            foreach (var car in cars)
+            while (true)
             {
-                Console.WriteLine(car.Manufacturer);
+                var keychar = Console.ReadKey().KeyChar;
+                Console.Clear();
+
+
+                if (!Char.IsDigit(keychar))
+                    Console.WriteLine("Ошибка ввода, введите число");
+                else
+                {
+                    IEnumerable<Contact> page = null;
+
+                    switch (keychar)
+                    {
+                        case ('1'):
+                            page = phoneBook.Take(2);
+                            break;
+                        case ('2'):
+                            page = phoneBook.Skip(2).Take(2);
+                            break;
+                        case ('3'):
+                            page = phoneBook.Skip(4).Take(2);
+                            break;
+                    }
+
+                    if (page == null)
+                    {
+                        Console.WriteLine($"Ошибка ввода, страницы с номером {keychar} не существует");
+                        continue;
+                    }
+
+                    foreach (var contact in page)
+                        Console.WriteLine(contact.Name + " " + contact.LastName + " " + contact.PhoneNumber + " " + contact.Email);
+                }
             }
         }
 
     }
-    public class Car
+    public class Contact 
     {
-        public string Manufacturer { get; set; }
-        public string CountryCode { get; set; }
-
-        public Car(string manufacturer, string countryCode)
+        public Contact(string name, string lastName, long phoneNumber, String email) 
         {
-            Manufacturer = manufacturer;
-            CountryCode = countryCode;
+            Name = name;
+            LastName = lastName;
+            PhoneNumber = phoneNumber;
+            Email = email;
         }
+
+        public String Name { get; }
+        public String LastName { get; }
+        public long PhoneNumber { get; }
+        public String Email { get; }
     }
 
 
