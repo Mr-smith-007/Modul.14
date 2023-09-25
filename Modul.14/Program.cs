@@ -9,59 +9,36 @@ namespace LinqTest
 
         static void Main(string[] args)
         {
-            var contacts = new List<Contact>()
+            var cars = new List<Car>()
+             {
+              new Car("Suzuki", "JP"),
+              new Car("Toyota", "JP"),
+              new Car("Opel", "DE"),
+              new Car("Kamaz", "RUS"),
+              new Car("Lada", "RUS"),
+              new Car("Lada", "RUS"),
+              new Car("Honda", "JP"),
+             };
+
+            cars.RemoveAll(cars => cars.CountryCode == "JP");
+
+            foreach (var car in cars)
             {
-                new Contact() { Name = "Андрей", Phone = 7999945005},
-                new Contact() { Name = "Сергей", Phone = 799990455 },
-                new Contact() { Name = "Иван", Phone = 79999675 },
-                new Contact() { Name = "Игорь", Phone = 795862356 },
-                new Contact() { Name = "Анна", Phone = 79235645005 },
-                new Contact() { Name = "Василий", Phone = 79035689535 }
-            };
-
-            while (true)
-            {
-                var keychar = Console.ReadKey().KeyChar;
-                Console.Clear();
-
-
-                if (!Char.IsDigit(keychar))
-                    Console.WriteLine("Ошибка ввода, введите число");
-                else
-                {
-                    IEnumerable<Contact> page = null;
-
-                    switch (keychar)
-                    {
-                        case ('1'):
-                            page = contacts.Take(2);
-                            break;
-                        case ('2'):
-                            page = contacts.Skip(2).Take(2);
-                            break;
-                        case ('3'):
-                            page = contacts.Skip(4).Take(2);
-                            break;
-                    }
-
-                    if (page == null)
-                    {
-                        Console.WriteLine($"Ошибка ввода, страницы с номером {keychar} не существует");
-                        continue;
-                    }
-
-                    foreach (var contact in page)
-                        Console.WriteLine(contact.Name + " " + contact.Phone);
-                }
+                Console.WriteLine(car.Manufacturer);
             }
         }
 
     }
-    class Contact
+    public class Car
     {
-        public string Name { get; set; }
-        public long Phone { get; set; }
+        public string Manufacturer { get; set; }
+        public string CountryCode { get; set; }
 
+        public Car(string manufacturer, string countryCode)
+        {
+            Manufacturer = manufacturer;
+            CountryCode = countryCode;
+        }
     }
 
 
